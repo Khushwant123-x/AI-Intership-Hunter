@@ -16,7 +16,7 @@ An AI-powered web app that analyzes your resume and finds the most relevant inte
 
 ## 🖥️ Demo
 
-<img width="1920" height="1080" alt="Screenshot (499)" src="https://github.com/user-attachments/assets/bfad6e58-95d5-4761-b99c-a906cd419eaa" />
+<!-- Uploading "Screen Recording 2026-06-18 081216-compressed (2).mp4"... --><!-- Uploading "Screen Recording 2026-06-18 081216-compressed (2).mp4"... -->
 
 
 > _Upload your resume → Extract skills → Find matching internships in seconds_

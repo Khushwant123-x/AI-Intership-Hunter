@@ -7,7 +7,7 @@ An AI-powered web app that analyzes your resume and finds the most relevant inte
 ## ✨ Features
 
 - 📄 **Resume Parsing** — Upload your PDF resume and extract text automatically
-- 🧠 **Skill Extraction** — Identifies your key skills using a custom NLP extractor
+- 🧠 **Skill Extraction** — Identifies your key skills using keyword-based alias matching with word-boundary support
 - 🌐 **Live Web Search** — Searches the web for the latest internship listings via Tavily API
 - 🎯 **Smart Matching** — Scores each internship based on skill overlap with your resume
 - 🏆 **Ranked Results** — Displays top 10 matches with match percentage and direct apply links
@@ -17,9 +17,6 @@ An AI-powered web app that analyzes your resume and finds the most relevant inte
 ## 🖥️ Demo
 
 https://github.com/user-attachments/assets/2854003b-4709-4171-bc08-2599d40ea0bb
-
-
-
 
 > _Upload your resume → Extract skills → Find matching internships in seconds_
 
@@ -32,20 +29,23 @@ https://github.com/user-attachments/assets/2854003b-4709-4171-bc08-2599d40ea0bb
 | Frontend / UI | [Streamlit](https://streamlit.io/) |
 | PDF Parsing | [PyMuPDF](https://pymupdf.readthedocs.io/) (`fitz`) |
 | Web Search | [Tavily API](https://tavily.com/) |
-| Skill Extraction | Custom `skill_extractor.py` module |
+| Skill Extraction | Keyword-based matcher with alias + word-boundary support (`skill_extractor.py`) |
 | Config | `python-dotenv` |
 
 ---
-## Architecture
-<img width="1536" height="1024" alt="ai-intership-hunter" src="https://github.com/user-attachments/assets/92d07a5b-2a0f-474e-8871-81464a2f3e84" />
 
+## Architecture
+
+<img width="1536" height="1024" alt="ai-internship-hunter" src="https://github.com/user-attachments/assets/92d07a5b-2a0f-474e-8871-81464a2f3e84" />
+
+---
 
 ## 📦 Installation
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/Ai-Internship-Hunter.git
+git clone https://github.com/Khushwant123-x/Ai-Internship-Hunter.git
 cd Ai-Internship-Hunter
 ```
 
@@ -64,15 +64,6 @@ TAVILY_API_KEY=your_tavily_api_key_here
 ```
 
 Get your free Tavily API key at [https://tavily.com](https://tavily.com).
-
-### 4. Add your skill extractor
-
-Make sure `skill_extractor.py` is present in the root directory. It must expose:
-
-```python
-def extract_skills(text: str) -> list[str]:
-    ...
-```
 
 ---
 
@@ -107,11 +98,19 @@ ai-internship-hunter/
 ## ⚙️ How It Works
 
 1. **Resume Upload** — PyMuPDF extracts raw text from the uploaded PDF
-2. **Skill Extraction** — `skill_extractor.py` parses the text to identify technical and soft skills
+2. **Skill Extraction** — `skill_extractor.py` matches 70+ skills using aliases and regex word boundaries (e.g., "ml" → Machine Learning, "reactjs" → React.js)
 3. **Web Search** — Tavily searches across multiple queries (e.g., "AI ML internship India 2026")
 4. **Filtering** — Results are filtered to only include actual internship listings
 5. **Scoring** — Each listing is scored by the percentage of your skills it mentions
 6. **Display** — Top 10 results are shown with match tier (🟢 High / 🟡 Medium / 🔴 Low)
+
+---
+
+## ⚠️ Limitations
+
+- Skill extraction is keyword-based — it may miss contextual mentions (e.g., "built models with torch" may not match "PyTorch" in all cases)
+- Internship results depend on Tavily search availability and quota
+- Only PDF resumes are supported currently
 
 ---
 
@@ -121,7 +120,7 @@ ai-internship-hunter/
 |---|---|
 | `TAVILY_API_KEY` | Your Tavily search API key |
 
-Never commit your `.env` file. Add it to `.gitignore`:
+Never commit your `.env` file. It is already listed in `.gitignore`:
 
 ```
 .env
@@ -168,5 +167,9 @@ A: Try again — Tavily search results vary. Make sure your API key is valid and
 **Q: Can I add more search queries?**
 A: Yes! Edit the `build_queries()` function in `app.py` to add more targeted searches.
 
+**Q: Can I add more skills to the extractor?**
+A: Yes! Open `skill_extractor.py` and add a new entry to the `SKILLS` dictionary with the skill name and its aliases.
+
 **Q: What file formats are supported?**
 A: Only PDF resumes are supported at this time.
+

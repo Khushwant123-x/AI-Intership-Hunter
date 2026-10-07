@@ -11,7 +11,9 @@ from skill_extractor import extract_skills
 # Load env variables
 load_dotenv()
 
-app = Flask(__name__, static_folder='static', static_url_path='/static')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+app = Flask(__name__, static_folder=STATIC_DIR, static_url_path='/static')
 CORS(app)  # Enable Cross-Origin Resource Sharing
 
 # Initialize Tavily

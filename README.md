@@ -1,16 +1,16 @@
 # 🚀 AI Internship Hunter
 
-An AI-powered web app that analyzes your resume and finds the most relevant internships in real time using web search and skill matching.
+An AI-powered web app and real-time matching engine that extracts technical skills from candidate resumes (PDF format) and finds relevant internship opportunities using real-time web search and algorithmic matching.
 
 ---
 
 ## ✨ Features
 
-- 📄 **Resume Parsing** — Upload your PDF resume and extract text automatically
-- 🧠 **Skill Extraction** — Identifies your key skills using keyword-based alias matching with word-boundary support
-- 🌐 **Live Web Search** — Searches the web for the latest internship listings via Tavily API
-- 🎯 **Smart Matching** — Scores each internship based on skill overlap with your resume
-- 🏆 **Ranked Results** — Displays top 10 matches with match percentage and direct apply links
+- 📄 **Resume Parsing** — Upload your PDF resume and extract text automatically using PyMuPDF (`fitz`).
+- 🧠 **Skill Extraction Engine** — Identifies 50+ key technical skills, frameworks, and tools.
+- 🌐 **Live Web Search** — Queries live web listings via the Tavily Search API with dynamic queries.
+- 🎯 **Smart Matching Engine** — Calculates realistic percentage match scores based on job requirements.
+- 🎨 **Glassmorphism UI** — Dark neon dashboard with drag-and-drop resume upload, interactive skill chips, and direct application links.
 
 ---
 
@@ -22,154 +22,113 @@ https://github.com/user-attachments/assets/2854003b-4709-4171-bc08-2599d40ea0bb
 
 ---
 
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Frontend / UI | [Streamlit](https://streamlit.io/) |
-| PDF Parsing | [PyMuPDF](https://pymupdf.readthedocs.io/) (`fitz`) |
-| Web Search | [Tavily API](https://tavily.com/) |
-| Skill Extraction | Keyword-based matcher with alias + word-boundary support (`skill_extractor.py`) |
-| Config | `python-dotenv` |
-
----
-
-## Architecture
+## 🏗️ Architecture
 
 <img width="1536" height="1024" alt="ai-internship-hunter" src="https://github.com/user-attachments/assets/92d07a5b-2a0f-474e-8871-81464a2f3e84" />
 
 ---
 
-## 📦 Installation
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Backend & API** | Python 3.10+, Flask, Flask-CORS |
+| **PDF Parsing** | [PyMuPDF](https://pymupdf.readthedocs.io/) (`fitz`) |
+| **Web Search** | [Tavily API](https://tavily.com/) |
+| **Skill Extraction** | Curated technical taxonomy matcher (`skill_extractor.py`) |
+| **Frontend** | HTML5, Vanilla CSS3 (Glassmorphism & Neon accents), Vanilla JavaScript |
+| **Config** | `python-dotenv` |
+
+---
+
+## 📦 Installation & Setup
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Khushwant123-x/Ai-Internship-Hunter.git
-cd Ai-Internship-Hunter
+git clone https://github.com/Khushwant123-x/AI-Intership-Hunter.git
+cd AI-Intership-Hunter
 ```
 
-### 2. Install dependencies
+### 2. Set Up Virtual Environment
+
+```bash
+python -m venv .venv
+
+# Windows
+.\.venv\Scripts\activate
+
+# macOS / Linux
+source .venv/bin/activate
+```
+
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Set up environment variables
+### 4. Configure Environment Variables
 
-Create a `.env` file in the root directory:
+Copy `.env.example` to `.env` and set your Tavily API key:
 
+```bash
+cp .env.example .env
+```
+
+In `.env`:
 ```env
 TAVILY_API_KEY=your_tavily_api_key_here
 ```
 
-Get your free Tavily API key at [https://tavily.com](https://tavily.com).
+Get your free Tavily search API key at [tavily.com](https://tavily.com).
 
 ---
 
-## 🚀 Usage
+## 🚀 Running the App
 
 ```bash
-streamlit run app.py
+python app.py
 ```
 
-Then open [http://localhost:8501](http://localhost:8501) in your browser.
+Then open your browser at:
+```
+http://127.0.0.1:5000
+```
 
-1. Upload your resume as a PDF
-2. View your extracted skills
-3. Click **Find Internships**
-4. Browse ranked matches and apply directly
+1. Upload your resume as a PDF via the drag-and-drop zone.
+2. View and edit your extracted skills in real time.
+3. Click **🚀 Find Internships**.
+4. Browse ranked matches with match percentage scores and apply directly!
 
 ---
 
 ## 📁 Project Structure
 
-```
-ai-internship-hunter/
-├── app.py                 # Main Streamlit app
-├── skill_extractor.py     # Skill extraction module
-├── requirements.txt       # Python dependencies
-├── .env                   # API keys (not committed)
-└── README.md
-```
-
----
-
-## ⚙️ How It Works
-
-1. **Resume Upload** — PyMuPDF extracts raw text from the uploaded PDF
-2. **Skill Extraction** — `skill_extractor.py` matches 70+ skills using aliases and regex word boundaries (e.g., "ml" → Machine Learning, "reactjs" → React.js)
-3. **Web Search** — Tavily searches across multiple queries (e.g., "AI ML internship India 2026")
-4. **Filtering** — Results are filtered to only include actual internship listings
-5. **Scoring** — Each listing is scored by the percentage of your skills it mentions
-6. **Display** — Top 10 results are shown with match tier (🟢 High / 🟡 Medium / 🔴 Low)
-
----
-
-## ⚠️ Limitations
-
-- Skill extraction is keyword-based — it may miss contextual mentions (e.g., "built models with torch" may not match "PyTorch" in all cases)
-- Internship results depend on Tavily search availability and quota
-- Only PDF resumes are supported currently
-
----
-
-## 🔒 Environment Variables
-
-| Variable | Description |
-|---|---|
-| `TAVILY_API_KEY` | Your Tavily search API key |
-
-Never commit your `.env` file. It is already listed in `.gitignore`:
-
-```
-.env
+```text
+AI_Intership_Hunter/
+├── app.py                 # Flask server & REST API endpoints (/api/extract, /api/search)
+├── main.py                # Standalone CLI / matching script
+├── skill_extractor.py     # Skill taxonomy definition & parsing logic
+├── static/
+│   ├── index.html         # Main single-page application dashboard
+│   ├── style.css          # Glassmorphism styling and responsive layout
+│   └── app.js             # Drag & drop upload, dynamic skill tags & cards rendering
+├── .env.example           # Environment variable template
+├── .gitignore             # Git ignore patterns
+└── requirements.txt       # Python dependencies
 ```
 
 ---
 
-## 📋 Requirements
+## ⚠️ Notes & Limitations
 
-See [`requirements.txt`](requirements.txt):
-
-```
-streamlit
-pymupdf
-python-dotenv
-tavily-python
-```
-
----
-
-## 🤝 Contributing
-
-Pull requests are welcome! To contribute:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/my-feature`)
-3. Commit your changes (`git commit -m 'Add my feature'`)
-4. Push to the branch (`git push origin feature/my-feature`)
-5. Open a Pull Request
+- Internship results depend on Tavily search availability and remaining API credits.
+- Only PDF resumes are supported.
+- Never commit your `.env` file containing your secret API keys (it is protected by `.gitignore`).
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
-
----
-
-## 🙋 FAQ
-
-**Q: Why are no internships showing up?**
-A: Try again — Tavily search results vary. Make sure your API key is valid and has remaining quota.
-
-**Q: Can I add more search queries?**
-A: Yes! Edit the `build_queries()` function in `app.py` to add more targeted searches.
-
-**Q: Can I add more skills to the extractor?**
-A: Yes! Open `skill_extractor.py` and add a new entry to the `SKILLS` dictionary with the skill name and its aliases.
-
-**Q: What file formats are supported?**
-A: Only PDF resumes are supported at this time.
-
+This project is licensed under the MIT License.

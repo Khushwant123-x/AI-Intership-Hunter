@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Internship Hunter | Real-Time Matching Engine</title>
+    <!-- Outfit & Inter Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Background Neon Glow Elements -->
+    <div class="glow-bg">
+        <div class="glow-sphere sphere-1"></div>
+        <div class="glow-sphere sphere-2"></div>
+        <div class="glow-sphere sphere-3"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">🚀</div>
+                <div class="brand-text">
+                    <h1>Internship Hunter</h1>
+                    <span class="badge-tag">AI Powered</span>
+                </div>
+            </div>
+
+            <!-- Upload Card -->
+            <div class="glass-card upload-section">
+                <div class="card-header">
+                    <span class="icon">📄</span>
+                    <h2>Upload Resume</h2>
+                </div>
+                <p class="description">Upload your PDF resume to extract skills and match jobs in real-time.</p>
+                
+                <div class="drop-zone" id="dropZone">
+                    <div class="drop-zone-content">
+                        <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        <span class="drop-zone-text">Drag & drop your PDF here or <span class="highlight">browse</span></span>
+                    </div>
+                    <input type="file" id="fileInput" accept=".pdf" class="file-input">
+                </div>
+
+                <div class="file-status hidden" id="fileStatus">
+                    <div class="file-info">
+                        <span class="file-name" id="fileName">resume.pdf</span>
+                        <button class="remove-file-btn" id="removeFileBtn">&times;</button>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills Editor Card -->
+            <div class="glass-card skills-section hidden" id="skillsSection">
+                <div class="card-header">
+                    <span class="icon">🧠</span>
+                    <h2>Extracted Skills</h2>
+                </div>
+                <p class="description">Verify and update your skills to refine search matches.</p>
+                
+                <div class="skills-container" id="skillsContainer">
+                    <!-- Dynamic Skill Tags -->
+                </div>
+
+                <div class="add-skill-box">
+                    <input type="text" id="newSkillInput" placeholder="Add custom skill..." autocomplete="off">
+                    <button class="add-skill-btn" id="addSkillBtn">+</button>
+                </div>
+
+                <button class="btn-primary" id="searchBtn">
+                    <span class="btn-text">🚀 Find Internships</span>
+                    <span class="btn-loader hidden" id="searchLoader"></span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <main class="main-content">
+            <!-- Welcome View (Empty State) -->
+            <div class="welcome-view" id="welcomeView">
+                <div class="welcome-graphics">
+                    <div class="pulse-ring"></div>
+                    <div class="graphic-center">🔍</div>
+                </div>
+                <h2>Ready to Hunt?</h2>
+                <p>Upload your PDF resume on the left, and our intelligent engine will crawl the web to find the best remote and tech internship matches for you instantly.</p>
+            </div>
+
+            <!-- Results View -->
+            <div class="results-view hidden" id="resultsView">
+                <div class="results-header">
+                    <div class="results-meta">
+                        <h2>Job Matches Found</h2>
+                        <p class="results-subtitle" id="resultsCount">We found 0 matches based on your skills</p>
+                    </div>
+                    <div class="results-status-badge success" id="statusBadge">Ready</div>
+                </div>
+
+                <!-- Custom query keywords used -->
+                <div class="search-queries-info">
+                    <span class="label">Search Queries Run:</span>
+                    <div class="queries-tags" id="queriesTags">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Cards Grid -->
+                <div class="cards-grid" id="cardsGrid">
+                    <!-- Job cards dynamic insertion -->
+                </div>
+            </div>
+
+            <!-- Loading View -->
+            <div class="loading-view hidden" id="loadingView">
+                <div class="spinner-container">
+                    <div class="spinner"></div>
+                    <div class="spinner-core"></div>
+                </div>
+                <h3 id="loadingText">Extracting your skills...</h3>
+                <p id="loadingSubtext">Processing PDF contents and parsing metadata</p>
+            </div>
+        </main>
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+</html>
